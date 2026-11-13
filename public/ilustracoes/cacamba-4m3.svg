@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img">
+  <title>Imagem ilustrativa: caçamba estacionária de 4 m³</title>
+  <defs>
+    <linearGradient id="fundoCena" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f3f4f6"/>
+      <stop offset="0.62" stop-color="#e6e8eb"/>
+      <stop offset="1" stop-color="#d9dce0"/>
+    </linearGradient>
+    <radialGradient id="luz" cx="0.32" cy="0.18" r="0.75">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="desfoque" x="-30%" y="-150%" width="160%" height="400%">
+      <feGaussianBlur stdDeviation="12"/>
+    </filter>
+    <linearGradient id="lateral" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffc21a"/>
+      <stop offset="1" stop-color="#d99a00"/>
+    </linearGradient>
+    <linearGradient id="cabeceira" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffd54d"/>
+      <stop offset="1" stop-color="#e9ac00"/>
+    </linearGradient>
+    <linearGradient id="nervura" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ffd14a"/>
+      <stop offset="1" stop-color="#e5a500"/>
+    </linearGradient>
+    <linearGradient id="interno" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#a87b00"/>
+      <stop offset="1" stop-color="#5e4400"/>
+    </linearGradient>
+    <linearGradient id="brilho" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.28"/>
+      <stop offset="0.45" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="recorteBoca"><path d="M267.6 328.7L654.9 238.6L532.4 145.5L145.1 235.6Z"/></clipPath>
+  </defs>
+  <rect width="800" height="600" fill="url(#fundoCena)"/>
+  <rect width="800" height="600" fill="url(#luz)"/>
+  <ellipse cx="400" cy="410.9" rx="237.3" ry="40.3" fill="#1c2331" opacity="0.34" filter="url(#desfoque)"/>
+  <path d="M206.9 409.1L499.1 341.2L499.1 325.4L206.9 393.3Z" fill="#2b2f36"/>
+  <path d="M300.9 480.6L593.1 412.7L593.1 396.9L300.9 464.8Z" fill="#3a3f47"/>
+
+  <path d="M267.6 328.7L654.9 238.6L607.3 407.7L315.2 475.6Z" fill="url(#lateral)"/>
+  <path d="M340.3 321.2L349.8 319L378.3 454.6L368.8 456.8Z" fill="url(#nervura)"/>
+  <path d="M349.8 319L378.3 454.6Z" stroke="#b07c00" stroke-width="1.6" fill="none"/>
+  <path d="M417.7 303.2L427.3 301L436.8 441L427.3 443.2Z" fill="url(#nervura)"/>
+  <path d="M427.3 301L436.8 441Z" stroke="#b07c00" stroke-width="1.6" fill="none"/>
+  <path d="M495.2 285.2L504.7 283L495.2 427.4L485.7 429.6Z" fill="url(#nervura)"/>
+  <path d="M504.7 283L495.2 427.4Z" stroke="#b07c00" stroke-width="1.6" fill="none"/>
+  <path d="M572.6 267.2L582.2 265L553.6 413.8L544.1 416Z" fill="url(#nervura)"/>
+  <path d="M582.2 265L553.6 413.8Z" stroke="#b07c00" stroke-width="1.6" fill="none"/>
+  <path d="M267.6 328.7L654.9 238.6L607.3 407.7L315.2 475.6Z" fill="url(#brilho)"/>
+  <path d="M267.6 328.7L145.1 235.6L192.7 382.5L315.2 475.6Z" fill="url(#cabeceira)"/>
+  <path d="M209.5 294L203.2 289.2L250.8 420.3L257.1 425.2Z" fill="#f2b400"/>
+
+  <path d="M267.6 328.7L654.9 238.6L532.4 145.5L145.1 235.6Z" fill="#3d2d00"/>
+  <g clip-path="url(#recorteBoca)">
+    <path d="M315.2 475.6L607.3 407.7L484.8 314.6L192.7 382.5Z" fill="#4a3600"/>
+    <path d="M145.1 235.6L532.4 145.5L484.8 314.6L192.7 382.5Z" fill="url(#interno)"/>
+    <path d="M654.9 238.6L532.4 145.5L484.8 314.6L607.3 407.7Z" fill="#7a5800"/>
+  </g>
+  <path d="M267.6 328.7L654.9 238.6L532.4 145.5L145.1 235.6Z" fill="none" stroke="#c48a00" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M267.6 328.7L654.9 238.6" stroke="#ffe07a" stroke-width="2.5"/>
+
+  <ellipse cx="311.1" cy="350.1" rx="9" ry="11" fill="none" stroke="#3a3f47" stroke-width="5"/>
+  <ellipse cx="611.4" cy="280.3" rx="9" ry="11" fill="none" stroke="#3a3f47" stroke-width="5"/>
+</svg>

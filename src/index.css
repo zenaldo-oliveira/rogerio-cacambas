@@ -1,0 +1,389 @@
+@import '@fontsource-variable/archivo/wdth.css';
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+
+/* Seções escuras (ex.: Caçambas) usam a classe .dark para trocar os tokens. */
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-sans: 'Archivo Variable', system-ui, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'Archivo Variable', system-ui, 'Segoe UI', Roboto, sans-serif;
+
+  /* Marca */
+  --color-marinho: #0b1a2e;
+  --color-marinho-claro: #15294a;
+  --color-amarelo: #f5b800;
+  --color-vermelho: #c8102e;
+  --color-vermelho-escuro: #a00c24;
+  --color-vinho: #5a0614;
+  /* Ação: botão de WhatsApp (branco sobre verde, contraste 5:1) */
+  --color-verde: #15803d;
+  --color-verde-escuro: #106330;
+
+  /* Neutros */
+  --color-papel: #f4f5f7;
+  --color-superficie: #ffffff;
+  --color-linha: #dde1e8;
+  --color-grafite: #1c2331;
+  --color-grafite-suave: #586174;
+}
+
+/*
+ * Tokens semânticos do shadcn/ui apontando para a paleta da marca.
+ * Os componentes em src/components/ui usam só estes tokens.
+ */
+:root {
+  --background: #f4f5f7; /* papel */
+  --foreground: #1c2331; /* grafite */
+  --card: #ffffff;
+  --card-foreground: #1c2331;
+  --popover: #0b1a2e; /* marinho: ampliação de fotos */
+  --popover-foreground: #ffffff;
+  --primary: #15803d; /* verde WhatsApp */
+  --primary-foreground: #ffffff;
+  --secondary: #15294a; /* marinho-claro */
+  --secondary-foreground: #ffffff;
+  --muted: #f4f5f7;
+  --muted-foreground: #586174;
+  --accent: #f5b800; /* amarelo */
+  --accent-foreground: #1c2331;
+  --destructive: #c8102e; /* vermelho */
+  --border: #dde1e8;
+  --input: #dde1e8;
+  --ring: #f5b800;
+  --radius: 0.5rem;
+
+  /* Ilustrações das caçambas */
+  --duracao-flutuacao: 3s;
+  --altura-flutuacao: 8px; /* deslocamento vertical máximo da caçamba recortada */
+
+  /* Entradas */
+  --duracao-entrada: 700ms;
+  --curva-entrada: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* Base do site: azul-marinho (a classe .dark fica no <html>). */
+.dark {
+  --background: #0b1a2e;
+  --foreground: #ffffff;
+  --card: #112340;
+  --card-foreground: #ffffff;
+  --muted: #112340;
+  --muted-foreground: rgb(255 255 255 / 0.72);
+  --border: rgb(255 255 255 / 0.08);
+  --input: rgb(255 255 255 / 0.15);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 4.5rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background font-sans text-foreground antialiased;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-amarelo);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    /* Abertura/fechamento do Dialog sem zoom nem fade. */
+    [data-slot='dialog-overlay'],
+    [data-slot='dialog-content'] {
+      animation: none !important;
+    }
+  }
+}
+
+/* ---------- Ilustrações das caçambas: camadas animadas ---------- */
+
+@keyframes flutuar {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(calc(-1 * var(--altura-flutuacao)));
+  }
+}
+
+/* A sombra encolhe e clareia enquanto a caçamba sobe (mesmo ritmo). */
+@keyframes sombra-flutuar {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(0.8);
+    opacity: 0.45;
+  }
+}
+
+/* Seletor de caçambas: só a imagem troca, com fade + deslocamento curto. */
+@keyframes troca-imagem {
+  from {
+    opacity: 0;
+    transform: translateX(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@layer components {
+  .troca-imagem {
+    animation: troca-imagem 280ms var(--curva-entrada) both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .troca-imagem {
+      animation: none;
+    }
+  }
+}
+
+/* ---------- Animações de entrada (só com html.animar-entrada) ---------- */
+
+/* Home: faixa vermelha desliza da direita até a posição final. */
+@keyframes faixa-entrar {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Home: foto revelada da direita para a esquerda; termina inteira (inset 0). */
+@keyframes revelar-da-direita {
+  from {
+    clip-path: inset(0 0 0 100%);
+  }
+  to {
+    clip-path: inset(0);
+  }
+}
+
+/* Cards: sobem e aparecem. */
+@keyframes subir-entrar {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Fotos com fundo: zoom leve que assenta. */
+@keyframes zoom-entrar {
+  from {
+    transform: scale(1.12);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@layer components {
+  .animar-entrada .entrada-faixa {
+    animation: faixa-entrar var(--duracao-entrada) var(--curva-entrada) both;
+  }
+
+  .animar-entrada .entrada-foto {
+    animation: revelar-da-direita var(--duracao-entrada) cubic-bezier(0.65, 0, 0.35, 1) 120ms both;
+  }
+
+  /* Ao rolar: o JS marca [data-visivel] quando o elemento entra na tela (uma vez). */
+  .animar-entrada [data-revelar]:not([data-visivel]) {
+    opacity: 0;
+  }
+
+  .animar-entrada [data-revelar='subir'][data-visivel] {
+    animation: subir-entrar 650ms var(--curva-entrada) var(--atraso-entrada, 0ms) both;
+  }
+
+  .animar-entrada [data-revelar='aparecer'][data-visivel] {
+    animation: aparecer 800ms var(--curva-entrada) var(--atraso-entrada, 0ms) both;
+  }
+
+  .animar-entrada [data-revelar='zoom'][data-visivel] {
+    animation: aparecer 500ms ease-out both;
+  }
+
+  /* Zoom só na imagem: textos, preço e botão não se movem. */
+  .animar-entrada [data-revelar][data-visivel] .zoom-entrada,
+  .animar-entrada [data-revelar='zoom'][data-visivel] img {
+    animation: zoom-entrar 1100ms var(--curva-entrada) var(--atraso-entrada, 0ms) both;
+  }
+}
+
+/* WhatsApp fixo: anel verde que se expande e some (só transform + opacity). */
+@keyframes anel-whatsapp {
+  from {
+    transform: scale(1);
+    opacity: 0.95;
+  }
+  to {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+
+@layer components {
+  /*
+   * Home: azul-marinho do site → tom do fundo da foto (#020e22), para a foto
+   * se fundir sem emenda. No celular o degradê é vertical (foto abaixo do texto).
+   */
+  .fundo-inicio {
+    background: linear-gradient(to bottom, var(--color-marinho) 0%, var(--color-marinho) 40%, #020e22 75%);
+  }
+
+  @media (width >= 64rem) {
+    .fundo-inicio {
+      background: linear-gradient(to right, var(--color-marinho) 0%, var(--color-marinho) 38%, #020e22 62%);
+    }
+  }
+
+  /* Foto sem moldura: esmaece as bordas (degradê na lateral esquerda e no topo/base). */
+  .foto-integrada {
+    mask-image:
+      linear-gradient(to right, transparent 0%, #000 3%, #000 97%, transparent 100%),
+      linear-gradient(to bottom, transparent 0%, #000 13%, #000 87%, transparent 100%);
+    mask-composite: intersect;
+  }
+
+  /* Mesmo fundo da cena do SVG completo, fixo atrás das camadas. */
+  .fundo-ilustracao {
+    background:
+      radial-gradient(75% 75% at 32% 18%, rgb(255 255 255 / 0.85), transparent),
+      linear-gradient(#f3f4f6, #e6e8eb 62%, #d9dce0);
+  }
+
+  .camada-flutuacao {
+    animation: flutuar var(--duracao-flutuacao) ease-in-out infinite alternate;
+    animation-delay: var(--atraso, 0s);
+  }
+
+  .camada-sombra {
+    transform-origin: 50% 69%; /* centro da sombra (ver npm run ilustracoes) */
+    animation: sombra-flutuar var(--duracao-flutuacao) ease-in-out infinite alternate;
+    animation-delay: var(--atraso, 0s);
+  }
+
+  /* Inclinação 3D: só a camada da ilustração; valores vêm do JS (--incl-x / --incl-y). */
+  .camada-inclinacao {
+    transform: perspective(900px) rotateX(var(--incl-x, 0deg)) rotateY(var(--incl-y, 0deg));
+    transition: transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+
+  /*
+   * Anel atrás do botão: pulsa duas vezes quando o botão aparece (uma vez por visita)
+   * e some; o botão em si não se move. Verde mais claro para ficar visível no azul-marinho.
+   */
+  .anel-whatsapp {
+    position: absolute;
+    inset: -2px;
+    border-radius: 9999px;
+    border: 4px solid #22c55e;
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  .animar-entrada .anel-whatsapp {
+    animation: anel-whatsapp 1.3s ease-out 0.9s 2;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .camada-flutuacao,
+    .camada-sombra,
+    .anel-whatsapp {
+      animation: none;
+    }
+
+    .camada-inclinacao {
+      transform: none;
+      transition: none;
+    }
+  }
+}
+
+/* Respiro vertical padrão entre seções (mais generoso no desktop). */
+@utility secao {
+  padding-block: 5rem;
+
+  @media (width >= 40rem) {
+    padding-block: 6rem;
+  }
+
+  @media (width >= 64rem) {
+    padding-block: 8rem;
+  }
+}
+
+/* Rótulo discreto acima dos títulos de seção. */
+@utility rotulo {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgb(255 255 255 / 0.6);
+}
+
+@utility titulo {
+  font-stretch: 80%;
+  font-weight: 800;
+  letter-spacing: -0.015em;
+  line-height: 0.95;
+  text-wrap: balance;
+}

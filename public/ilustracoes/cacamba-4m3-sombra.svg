@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img">
+  <title>Sombra</title>
+  <defs>
+    <filter id="desfoque" x="-30%" y="-150%" width="160%" height="400%">
+      <feGaussianBlur stdDeviation="12"/>
+    </filter>
+  </defs>
+  <ellipse cx="400" cy="410.9" rx="237.3" ry="40.3" fill="#1c2331" opacity="0.34" filter="url(#desfoque)"/>
+</svg>

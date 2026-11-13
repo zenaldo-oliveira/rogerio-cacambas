@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img">
+  <title>Imagem ilustrativa: caçamba estacionária de 6 m³</title>
+  <defs>
+    <linearGradient id="lateral" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffc21a"/>
+      <stop offset="1" stop-color="#d99a00"/>
+    </linearGradient>
+    <linearGradient id="cabeceira" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffd54d"/>
+      <stop offset="1" stop-color="#e9ac00"/>
+    </linearGradient>
+    <linearGradient id="nervura" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ffd14a"/>
+      <stop offset="1" stop-color="#e5a500"/>
+    </linearGradient>
+    <linearGradient id="interno" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#a87b00"/>
+      <stop offset="1" stop-color="#5e4400"/>
+    </linearGradient>
+    <linearGradient id="brilho" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.28"/>
+      <stop offset="0.45" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="recorteBoca"><path d="M232.8 333.2L701.5 224.1L567.2 122.1L98.5 231.1Z"/></clipPath>
+  </defs>
+  <path d="M160.2 423.6L533.9 336.7L533.9 320.9L160.2 407.8Z" fill="#2b2f36"/>
+  <path d="M266.1 504.1L639.8 417.2L639.8 401.4L266.1 488.3Z" fill="#3a3f47"/>
+
+  <path d="M232.8 333.2L701.5 224.1L654 412.2L280.3 499.1Z" fill="url(#lateral)"/>
+  <path d="M306.1 325.6L315.6 323.4L347.3 477.2L337.8 479.4Z" fill="url(#nervura)"/>
+  <path d="M315.6 323.4L347.3 477.2Z" stroke="#b07c00" stroke-width="1.6" fill="none"/>
+  <path d="M384.3 307.4L393.8 305.2L409.6 462.7L400.1 464.9Z" fill="url(#nervura)"/>
+  <path d="M393.8 305.2L409.6 462.7Z" stroke="#b07c00" stroke-width="1.6" fill="none"/>
+  <path d="M462.4 289.2L471.9 287L471.9 448.2L462.4 450.4Z" fill="url(#nervura)"/>
+  <path d="M471.9 287L471.9 448.2Z" stroke="#b07c00" stroke-width="1.6" fill="none"/>
+  <path d="M540.5 271.1L550 268.9L534.2 433.7L524.7 435.9Z" fill="url(#nervura)"/>
+  <path d="M550 268.9L534.2 433.7Z" stroke="#b07c00" stroke-width="1.6" fill="none"/>
+  <path d="M618.7 252.9L628.2 250.7L596.5 419.2L587 421.4Z" fill="url(#nervura)"/>
+  <path d="M628.2 250.7L596.5 419.2Z" stroke="#b07c00" stroke-width="1.6" fill="none"/>
+  <path d="M232.8 333.2L701.5 224.1L654 412.2L280.3 499.1Z" fill="url(#brilho)"/>
+  <path d="M232.8 333.2L98.5 231.1L146 397L280.3 499.1Z" fill="url(#cabeceira)"/>
+  <path d="M168.8 294L162.4 289.2L210 439.3L216.3 444.1Z" fill="#f2b400"/>
+
+  <path d="M232.8 333.2L701.5 224.1L567.2 122.1L98.5 231.1Z" fill="#3d2d00"/>
+  <g clip-path="url(#recorteBoca)">
+    <path d="M280.3 499.1L654 412.2L519.7 310.1L146 397Z" fill="#4a3600"/>
+    <path d="M98.5 231.1L567.2 122.1L519.7 310.1L146 397Z" fill="url(#interno)"/>
+    <path d="M701.5 224.1L567.2 122.1L519.7 310.1L654 412.2Z" fill="#7a5800"/>
+  </g>
+  <path d="M232.8 333.2L701.5 224.1L567.2 122.1L98.5 231.1Z" fill="none" stroke="#c48a00" stroke-width="7" stroke-linejoin="round"/>
+  <path d="M232.8 333.2L701.5 224.1" stroke="#ffe07a" stroke-width="2.5"/>
+
+  <ellipse cx="276.2" cy="354.7" rx="9" ry="11" fill="none" stroke="#3a3f47" stroke-width="5"/>
+  <ellipse cx="658.1" cy="265.9" rx="9" ry="11" fill="none" stroke="#3a3f47" stroke-width="5"/>
+</svg>
