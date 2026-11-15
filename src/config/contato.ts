@@ -81,6 +81,26 @@ export function linkMapa(url: string = empresa.localizacao.mapa): string | null 
   }
 }
 
+interface Coordenadas {
+  latitude: number
+  longitude: number
+}
+
+/**
+ * Mapa incorporável (iframe) do Google Maps com o marcador nas coordenadas.
+ * Não usa chave de API nem assinatura. Retorna null se as coordenadas forem inválidas.
+ */
+export function linkMapaIncorporado(
+  { latitude, longitude }: Coordenadas = empresa.localizacao.coordenadas,
+  zoom = 16,
+): string | null {
+  const valido =
+    Number.isFinite(latitude) && Number.isFinite(longitude) && Math.abs(latitude) <= 90 && Math.abs(longitude) <= 180
+  if (!valido) return null
+  const params = new URLSearchParams({ q: `${latitude},${longitude}`, z: String(zoom), output: 'embed' })
+  return `https://maps.google.com/maps?${params.toString()}`
+}
+
 /** Fotos da galeria com arquivo cadastrado (as vazias não aparecem no site). */
 export const fotosGaleria = empresa.fotos.galeria.filter((foto) => foto.src.trim() !== '')
 

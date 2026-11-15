@@ -1,17 +1,18 @@
 import { useEffect, useRef, useState, type KeyboardEvent, type PointerEvent, type RefObject } from 'react'
+import { CreditCardIcon, ImageOffIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { cn } from '@/lib/utils'
 import { BotaoWhatsApp } from '../components/BotaoWhatsApp'
 import { Foto } from '../components/Foto'
-import { Pendente } from '../components/Pendente'
-import { formatarPreco } from '../config/contato'
+import { IconePix } from '../components/Icones'
+import { formatarPreco, urlPublica } from '../config/contato'
 import { empresa, type Cacamba } from '../config/empresa'
 
 /** Inclinação máxima da ilustração, em graus (discreta). */
 const INCLINACAO_MAX = { x: 3, y: 4 }
 
-/** Fotos reais que ainda não existem: evita tentar de novo (e piscar) a cada troca de tamanho. */
+/** Fotos que falharam ao carregar: evita tentar de novo (e piscar) a cada troca de tamanho. */
 const SEM_FOTO = new Set<string>()
 
 /** Camadas geradas por `npm run ilustracoes` ao lado da ilustração completa. */
@@ -35,19 +36,30 @@ function definirInclinacao(camada: HTMLElement | null, x: number, y: number) {
   camada?.style.setProperty('--incl-y', `${y}deg`)
 }
 
-/** Carrega antes as imagens dos 4 tamanhos, para a troca no seletor ser imediata. */
+/** Carrega antes a imagem de cada tamanho (foto ou, sem foto, a ilustração), para a troca ser imediata. */
 function usePreCarregarImagens(cacambas: Cacamba[]) {
   useEffect(() => {
     for (const cacamba of cacambas) {
-      const { recorte, sombra } = camadasIlustracao(cacamba.ilustracao)
-      for (const src of [recorte, sombra]) new Image().src = src
-      if (cacamba.foto && !SEM_FOTO.has(cacamba.foto)) {
+      if (!cacamba.foto) {
+        const { recorte, sombra } = camadasIlustracao(cacamba.ilustracao)
+        for (const src of [recorte, sombra]) new Image().src = src
+      } else if (!SEM_FOTO.has(cacamba.foto)) {
         const teste = new Image()
         teste.onerror = () => SEM_FOTO.add(cacamba.foto)
-        teste.src = cacamba.foto
+        teste.src = urlPublica(cacamba.foto)
       }
     }
   }, [cacambas])
+}
+
+/** Aviso discreto no lugar da foto que não carregou (sem ícone de imagem quebrada). */
+function FotoIndisponivel() {
+  return (
+    <div role="img" aria-label="Foto indisponível" className="flex h-full w-full flex-col items-center justify-center gap-2 bg-marinho-claro text-sm text-white/60">
+      <ImageOffIcon aria-hidden="true" className="size-6" />
+      Foto indisponível
+    </div>
+  )
 }
 
 interface ImagemModeloProps {
@@ -56,24 +68,27 @@ interface ImagemModeloProps {
 }
 
 /**
- * Foto real do modelo; se o arquivo ainda não existir, mostra a ilustração em camadas:
+ * Foto do modelo (`foto` em empresa.ts). Se ela falhar ao carregar, mostra "Foto indisponível".
+ * Sem `foto` cadastrada, mostra a ilustração em camadas:
  *   fundo (fixo) → inclinação (mouse) → sombra (reage) + flutuação (só a caçamba).
  */
 function ImagemModelo({ cacamba, refInclinacao }: ImagemModeloProps) {
-  const [ilustrativa, setIlustrativa] = useState(!cacamba.foto || SEM_FOTO.has(cacamba.foto))
+  const [falhou, setFalhou] = useState(SEM_FOTO.has(cacamba.foto))
 
-  if (!ilustrativa) {
+  if (cacamba.foto && falhou) return <FotoIndisponivel />
+
+  if (cacamba.foto) {
     return (
       <figure className="relative h-full w-full overflow-hidden bg-[#e6e8eb]">
         <img
-          src={cacamba.foto}
+          src={urlPublica(cacamba.foto)}
           alt={`Caçamba de ${cacamba.capacidade}`}
           width={800}
           height={600}
           decoding="async"
           onError={() => {
             SEM_FOTO.add(cacamba.foto)
-            setIlustrativa(true)
+            setFalhou(true)
           }}
           // zoom-entrada: zoom leve quando o painel entra na tela (só a imagem).
           className="zoom-entrada h-full w-full object-cover"
@@ -122,6 +137,38 @@ function proximoIndice(tecla: string, atual: number, total: number): number | nu
     default:
       return null
   }
+}
+
+/** Quadrinho de forma de pagamento (Pix, bandeira ou cartão genérico). */
+const SELO_PAGAMENTO = 'inline-flex h-7 items-center gap-1.5 rounded-sm border border-white/15 bg-white/5 px-2 text-xs font-semibold text-white/85'
+
+/** "Aceitamos Pix e cartões" + Pix e bandeiras; sem bandeiras confirmadas, um ícone genérico de cartão. */
+function Pagamentos() {
+  const { texto, bandeiras } = empresa.pagamentos
+
+  return (
+    <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2">
+      <p className="text-sm text-muted-foreground">{texto}</p>
+      <ul className="flex flex-wrap gap-1.5" aria-label="Formas de pagamento">
+        <li className={SELO_PAGAMENTO}>
+          <IconePix className="size-3.5 shrink-0 text-[#32bcad]" />
+          Pix
+        </li>
+        {bandeiras.length > 0 ? (
+          bandeiras.map((bandeira) => (
+            <li key={bandeira} className={SELO_PAGAMENTO}>
+              {bandeira}
+            </li>
+          ))
+        ) : (
+          <li className={SELO_PAGAMENTO}>
+            <CreditCardIcon aria-hidden="true" className="size-3.5 shrink-0" />
+            Cartão
+          </li>
+        )}
+      </ul>
+    </div>
+  )
 }
 
 /** Seletor de tamanho (abas) + painel do tamanho ativo. */
@@ -188,15 +235,14 @@ function SeletorCacambas({ cacambas }: { cacambas: Cacamba[] }) {
           </div>
         </div>
 
-        {/* Informações em posições fixas: tamanho, preço, descrição (altura mínima) e botão. */}
+        {/* Informações do tamanho ativo; no celular ficam abaixo da foto. */}
         <div className="flex flex-col gap-5 p-5 sm:p-6 md:justify-center lg:p-8">
-          <div className="flex items-end justify-between gap-4">
-            <h3 className="titulo text-6xl text-accent tabular-nums lg:text-7xl">
-              {cacamba.capacidade}
+          <div>
+            <h3 className="titulo text-3xl sm:text-4xl">
+              Caçamba de <span className="text-accent tabular-nums">{cacamba.capacidade}</span>
             </h3>
-            <p className="text-right">
-              <span className="block text-3xl font-extrabold tracking-tight tabular-nums">{formatarPreco(cacamba.preco)}</span>
-              <span className={cn('block text-xs text-muted-foreground', cacamba.precoConfirmado && 'invisible')}>valor a confirmar</span>
+            <p className="mt-2 text-xl font-extrabold tracking-tight tabular-nums">
+              {cacamba.precoConfirmado ? formatarPreco(cacamba.preco) : 'Consulte o valor'}
             </p>
           </div>
           <p className="min-h-[3.25rem] text-base leading-relaxed text-muted-foreground">{cacamba.descricao}</p>
@@ -209,7 +255,10 @@ function SeletorCacambas({ cacambas }: { cacambas: Cacamba[] }) {
               ))}
             </ul>
           )}
-          <BotaoWhatsApp texto={`Pedir orçamento de ${cacamba.capacidade}`} capacidade={cacamba.capacidade} />
+          <div>
+            <BotaoWhatsApp texto={`Pedir orçamento de ${cacamba.capacidade}`} capacidade={cacamba.capacidade} tamanho="card" />
+            <Pagamentos />
+          </div>
         </div>
       </div>
     </Card>
@@ -240,15 +289,6 @@ export function Cacambas() {
           <SeletorCacambas cacambas={empresa.cacambas} />
         </div>
 
-        <div className="mt-10 text-sm">
-          {empresa.pagamentos.confirmado ? (
-            <p className="text-base text-muted-foreground">{empresa.pagamentos.texto}</p>
-          ) : (
-            <p>
-              <Pendente campo={`confirmar "${empresa.pagamentos.texto}"`} chave="pagamentos.confirmado" />
-            </p>
-          )}
-        </div>
       </div>
     </section>
   )

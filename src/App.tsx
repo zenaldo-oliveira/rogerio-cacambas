@@ -3,6 +3,7 @@ import { useRevelarAoRolar } from './hooks/useRevelarAoRolar'
 import { Cacambas } from './sections/Cacambas'
 import { Galeria } from './sections/Galeria'
 import { Inicio } from './sections/Inicio'
+import { Localizacao } from './sections/Localizacao'
 import { Rodape } from './sections/Rodape'
 import { Servicos } from './sections/Servicos'
 import { Topo } from './sections/Topo'
@@ -18,6 +19,7 @@ function App() {
         <Servicos />
         <Cacambas />
         <Galeria />
+        <Localizacao />
       </main>
       <Rodape />
       <WhatsAppFlutuante />

@@ -60,3 +60,27 @@ export function IconeMenu({ aberto, className }: IconeProps & { aberto: boolean 
     </svg>
   )
 }
+
+/** Ícone do Instagram (contorno). Dentro de um Button, passe `className=""` e `data-icon`. */
+export function IconeInstagram({
+  className = 'size-5 shrink-0',
+  'data-icon': dataIcon,
+}: IconeProps & { 'data-icon'?: 'inline-start' | 'inline-end' }) {
+  return (
+    <svg {...BASE} className={className || undefined} data-icon={dataIcon}>
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="0.6" fill="currentColor" />
+    </svg>
+  )
+}
+
+/** Símbolo do Pix (losangos entrelaçados, simplificado), na cor do texto. */
+export function IconePix({ className = 'size-4 shrink-0' }: IconeProps) {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24" className={className} fill="currentColor">
+      <path d="M17.6 17.3a2.9 2.9 0 0 1-2.1-.9l-3-3a.6.6 0 0 0-.8 0l-3 3a2.9 2.9 0 0 1-2.1.9H6l3.8 3.8a3 3 0 0 0 4.3 0l3.9-3.8h-.4ZM6.6 6.7c.8 0 1.5.3 2.1.9l3 3c.2.2.6.2.8 0l3-3a2.9 2.9 0 0 1 2.1-.9h.4l-3.9-3.8a3 3 0 0 0-4.3 0L6 6.7h.6Z" />
+      <path d="m21.1 9.9-2.3-2.3h-1.2c-.5 0-1 .2-1.4.6l-3 3a1.7 1.7 0 0 1-2.4 0l-3-3a2 2 0 0 0-1.4-.6H5.1L2.9 9.9a3 3 0 0 0 0 4.3l2.2 2.2h1.3c.5 0 1-.2 1.4-.6l3-3a1.8 1.8 0 0 1 2.4 0l3 3c.4.4.9.6 1.4.6h1.2l2.3-2.3a3 3 0 0 0 0-4.2Z" />
+    </svg>
+  )
+}

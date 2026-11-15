@@ -40,8 +40,9 @@ export type Cacamba = {
   /** Materiais aceitos. Só aparece no card quando a lista não estiver vazia. */
   materiais: string[]
   /**
-   * Foto real do modelo em public/fotos/. Basta colocar o arquivo com esse nome:
-   * enquanto ele não existir, o card mostra a ilustração com a legenda "Imagem ilustrativa".
+   * Foto do modelo em public/fotos/ (WebP 1200×900, gerado do PNG original de mesmo tamanho na pasta).
+   * Se o arquivo não carregar, o card mostra "Foto indisponível".
+   * Vazio ('') = mostra a ilustração com a legenda "Imagem ilustrativa".
    */
   foto: string
   /** Ilustração usada enquanto falta a foto real (gerada por `npm run ilustracoes`). */
@@ -65,9 +66,9 @@ export const empresa = {
 
   /**
    * Usuário do Instagram sem @. Ex.: 'rogeriocacambas'.
-   * ATENÇÃO: o perfil da arte de referência precisa ser confirmado com o cliente.
+   * Perfil confirmado pelo cliente.
    */
-  instagram: '',
+  instagram: 'rogeriocacambas',
 
   /** Telefone fixo opcional, como deve aparecer no site. Ex.: '(11) 4000-0000'. */
   telefoneFixo: '',
@@ -77,19 +78,20 @@ export const empresa = {
 
   regiao: {
     /** Cidade(s) ou região principal. Ex.: 'Zona Leste de São Paulo'. */
-    principal: '',
+    principal: 'Cuiabá – MT',
     /** Bairros ou cidades atendidos. Ex.: ['Tatuapé', 'Mooca', 'Penha']. */
     bairros: [] as string[],
   },
 
   localizacao: {
+    /** Ponto da empresa no mapa da seção Localização (graus decimais). */
+    coordenadas: { latitude: -15.585448, longitude: -56.0328494 },
     /**
-     * Link oficial do Google Maps (botão "Compartilhar" no Maps).
-     * Ex.: 'https://maps.app.goo.gl/AbC123'. Enquanto estiver vazio ou inválido,
-     * o bloco de localização e o botão "Traçar rota" não aparecem.
+     * Link de rota do Google Maps até as coordenadas acima (botão "Como chegar").
+     * Precisa ser https e do Google: é validado por linkMapa(). Vazio ou inválido = botão oculto.
      */
-    mapa: '',
-    /** Endereço exibido junto ao botão. Ex.: 'Rua Exemplo, 123 – Bairro, Cidade'. */
+    mapa: 'https://www.google.com/maps/dir/?api=1&destination=-15.585448%2C-56.0328494',
+    /** Endereço completo, só depois de confirmado. Ex.: 'Rua Exemplo, 123 – Bairro, Cidade'. Vazio = não aparece. */
     endereco: '',
   },
 
@@ -104,7 +106,7 @@ export const empresa = {
       preco: 400,
       precoConfirmado: false,
       materiais: [],
-      foto: '/fotos/cacamba-3m3.jpg',
+      foto: '/fotos/cacamba-3m3.webp',
       ilustracao: '/ilustracoes/cacamba-3m3.svg',
     },
     {
@@ -113,7 +115,7 @@ export const empresa = {
       preco: 430,
       precoConfirmado: false,
       materiais: [],
-      foto: '/fotos/cacamba-4m3.jpg',
+      foto: '/fotos/cacamba-4m3.webp',
       ilustracao: '/ilustracoes/cacamba-4m3.svg',
     },
     {
@@ -122,7 +124,7 @@ export const empresa = {
       preco: 480,
       precoConfirmado: false,
       materiais: [],
-      foto: '/fotos/cacamba-5m3.jpg',
+      foto: '/fotos/cacamba-5m3.webp',
       ilustracao: '/ilustracoes/cacamba-5m3.svg',
     },
     {
@@ -131,15 +133,19 @@ export const empresa = {
       preco: 550,
       precoConfirmado: false,
       materiais: [],
-      foto: '/fotos/cacamba-6m3.jpg',
+      foto: '/fotos/cacamba-6m3.webp',
       ilustracao: '/ilustracoes/cacamba-6m3.svg',
     },
   ] satisfies Cacamba[],
 
-  /** Formas de pagamento: a linha só aparece no site com `confirmado: true`. */
+  /** Formas de pagamento, exibidas no card de Nossas Caçambas, abaixo do botão de orçamento. */
   pagamentos: {
-    texto: 'Aceitamos Pix, débito e crédito',
-    confirmado: false,
+    texto: 'Aceitamos Pix e cartões',
+    /**
+     * Bandeiras aceitas, como devem aparecer. Ex.: ['Visa', 'Mastercard', 'Elo'].
+     * Vazio = mostra um ícone genérico de cartão até a lista ser confirmada.
+     */
+    bandeiras: [] as string[],
   },
 
   /** Fotos reais. Coloque os arquivos em public/fotos/ e informe o caminho. */

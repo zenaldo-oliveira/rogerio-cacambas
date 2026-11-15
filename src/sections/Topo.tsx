@@ -11,6 +11,7 @@ const LINKS = [
   { href: '#servicos', rotulo: 'Serviços' },
   { href: '#cacambas', rotulo: 'Caçambas' },
   ...(temGaleria ? [{ href: '#galeria', rotulo: 'Galeria' }] : []),
+  { href: '#localizacao', rotulo: 'Localização' },
   { href: '#contato', rotulo: 'Contato' },
 ]
 
