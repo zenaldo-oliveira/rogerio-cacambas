@@ -164,6 +164,9 @@ function ItemMaterial({ foto }: { foto: FotoGaleria }) {
   );
 }
 
+/** Enquanto todas as fotos forem ilustrativas, o rótulo não as apresenta como trabalho da empresa. */
+const todasIlustrativas = fotosGaleria.every((foto) => foto.ilustrativa);
+
 export function Galeria() {
   if (fotosGaleria.length === 0) return null;
 
@@ -176,7 +179,7 @@ export function Galeria() {
       <FundoGaleria />
 
       <div className="secao mx-auto max-w-6xl px-4 sm:px-6">
-        <p className="rotulo">Nosso trabalho</p>
+        <p className="rotulo">{todasIlustrativas ? 'Exemplos ilustrativos' : 'Nosso trabalho'}</p>
         <h2
           id="titulo-galeria"
           className="titulo mt-3 text-4xl text-white uppercase sm:text-5xl"

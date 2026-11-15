@@ -11,6 +11,8 @@ export type Foto = {
   src: string
   /** Descrição da foto (acessibilidade e SEO). */
   alt: string
+  /** Versão menor da mesma foto, usada em telas de até 640 px (celular). Opcional. */
+  srcCelular?: string
 }
 
 export type FotoGaleria = Foto & {
@@ -151,11 +153,13 @@ export const empresa = {
   /** Fotos reais. Coloque os arquivos em public/fotos/ e informe o caminho. */
   fotos: {
     /**
-     * Foto da primeira tela: os caminhões. Proporção 2:1 (1774×887), igual à moldura em Inicio.tsx.
-     * Versão leve da mesma foto: '/fotos/fundo-galeria-caminhao.webp' (177 KB em vez de 2,3 MB).
+     * Foto da primeira tela: os caminhões. Proporção 2:1, igual à moldura em Inicio.tsx.
+     * WebPs gerados de "background-caminhao.png" (2,3 MB): 1774×887 (177 KB) no desktop
+     * e 900×450 (54 KB) no celular.
      */
     principal: {
-      src: '/fotos/background-caminhao.png',
+      src: '/fotos/fundo-galeria-caminhao.webp',
+      srcCelular: '/fotos/fundo-galeria-caminhao-900.webp',
       alt: 'Caminhões vermelho e azul da Rogério Caçambas',
     } satisfies Foto,
     /**

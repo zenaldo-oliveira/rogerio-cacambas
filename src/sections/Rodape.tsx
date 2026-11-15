@@ -8,7 +8,7 @@ import { empresa } from '../config/empresa'
 function Item({ rotulo, children, largo = false }: { rotulo: string; children: ReactNode; largo?: boolean }) {
   return (
     <div className={largo ? 'sm:col-span-2' : undefined}>
-      <dt className="text-xs font-bold tracking-widest text-white/70 uppercase">{rotulo}</dt>
+      <dt className="text-xs font-bold tracking-widest text-white uppercase">{rotulo}</dt>
       <dd className="mt-2 text-lg">{children}</dd>
     </div>
   )
@@ -54,7 +54,7 @@ export function Rodape() {
             <h2 id="titulo-contato" className="titulo text-4xl uppercase sm:text-5xl">
               Peça seu orçamento
             </h2>
-            <p className="mt-5 max-w-sm text-base leading-relaxed text-white/85">
+            <p className="mt-5 max-w-sm text-base leading-relaxed text-white">
               Mande o bairro, o material e a data. A mensagem já vai pronta.
             </p>
             <div className="mt-8">
@@ -93,14 +93,14 @@ export function Rodape() {
             </Item>
             <Item rotulo="Região atendida">
               {principal && <span className="block">{principal}</span>}
-              {bairros.length > 0 && <span className="mt-1 block text-base text-white/80">{bairros.join(' · ')}</span>}
-              <span className="mt-1 block text-base text-white/80">Consulte a disponibilidade de entrega no seu bairro.</span>
+              {bairros.length > 0 && <span className="mt-1 block text-base text-white">{bairros.join(' · ')}</span>}
+              <span className="mt-1 block text-base text-white">Consulte a disponibilidade de entrega no seu bairro.</span>
             </Item>
             {empresa.telefoneFixo && <Item rotulo="Telefone">{empresa.telefoneFixo}</Item>}
           </dl>
         </div>
 
-        <div className="mt-14 flex flex-col gap-4 border-t border-white/25 pt-6 text-sm text-white/80 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-14 flex flex-col gap-4 border-t border-white/25 pt-6 text-sm text-white sm:flex-row sm:items-center sm:justify-between">
           <Logo className="text-lg" sobreVermelho />
           <p>
             © {new Date().getFullYear()} {empresa.nome}

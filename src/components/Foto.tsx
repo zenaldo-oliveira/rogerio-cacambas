@@ -11,6 +11,9 @@ interface FotoProps {
   prioridade?: boolean
 }
 
+/** Até esta largura de tela, usa `srcCelular` (quando houver). */
+const LARGURA_CELULAR = 640
+
 /**
  * Mostra a foto real ou, se não houver arquivo configurado (ou ele ainda não existir
  * em public/), um espaço de prévia identificado.
@@ -20,7 +23,7 @@ export function Foto({ foto, chave, proporcao = '4:3', className = '', prioridad
   const [falhou, setFalhou] = useState(false)
 
   if (foto.src && !falhou) {
-    return (
+    const img = (
       <img
         src={foto.src}
         alt={foto.alt}
@@ -30,6 +33,14 @@ export function Foto({ foto, chave, proporcao = '4:3', className = '', prioridad
         onError={() => setFalhou(true)}
         className={`h-full w-full object-cover ${className}`}
       />
+    )
+    if (!foto.srcCelular) return img
+    // <picture> com media: o celular baixa só a versão menor (sem depender da densidade da tela).
+    return (
+      <picture className="contents">
+        <source media={`(max-width: ${LARGURA_CELULAR}px)`} srcSet={foto.srcCelular} />
+        {img}
+      </picture>
     )
   }
 

@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils'
 import { IconeInstagram } from '../components/Icones'
 import { linkInstagram, linkMapa, linkMapaIncorporado } from '../config/contato'
 import { empresa } from '../config/empresa'
+import { useFocoTecladoIframe } from '../hooks/useFocoTecladoIframe'
 
 /** Mesmo movimento e foco dos demais botões do site; com movimento reduzido, só a cor muda. */
 const BOTAO =
@@ -11,6 +12,7 @@ const BOTAO =
 
 /** Seção com o mapa da empresa (gerado das coordenadas em empresa.ts) e os botões de rota e Instagram. */
 export function Localizacao() {
+  const { ref: refMapa, focado: mapaFocado } = useFocoTecladoIframe()
   const mapa = linkMapaIncorporado()
   if (!mapa) return null
 
@@ -56,8 +58,15 @@ export function Localizacao() {
             )}
           </div>
 
-          <div className="overflow-hidden rounded-lg border border-border bg-marinho-claro">
+          {/* Foco pelo teclado no mapa: anel amarelo na moldura (o iframe não mostra contorno próprio). */}
+          <div
+            className={cn(
+              'overflow-hidden rounded-lg border border-border bg-marinho-claro',
+              mapaFocado && 'ring-3 ring-ring ring-offset-2 ring-offset-background',
+            )}
+          >
             <iframe
+              ref={refMapa}
               src={mapa}
               title={`Mapa com a localização da ${empresa.nome}`}
               loading="lazy"

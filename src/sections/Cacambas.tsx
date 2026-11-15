@@ -2,11 +2,12 @@ import { useEffect, useRef, useState, type KeyboardEvent, type PointerEvent, typ
 import { CreditCardIcon, ImageOffIcon } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
+import { podeSeguirPonteiro } from '@/lib/movimento'
 import { cn } from '@/lib/utils'
 import { BotaoWhatsApp } from '../components/BotaoWhatsApp'
 import { Foto } from '../components/Foto'
-import { IconePix } from '../components/Icones'
-import { formatarPreco, urlPublica } from '../config/contato'
+import { IconePix, IconeWhatsApp } from '../components/Icones'
+import { formatarPreco, linkWhatsApp, urlPublica } from '../config/contato'
 import { empresa, type Cacamba } from '../config/empresa'
 
 /** Inclinação máxima da ilustração, em graus (discreta). */
@@ -23,13 +24,6 @@ function camadasIlustracao(ilustracao: string) {
   }
 }
 
-/** Inclinação só no desktop com mouse e sem preferência por movimento reduzido. */
-function podeInclinar(): boolean {
-  return (
-    window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
-    !window.matchMedia('(prefers-reduced-motion: reduce)').matches
-  )
-}
 
 function definirInclinacao(camada: HTMLElement | null, x: number, y: number) {
   camada?.style.setProperty('--incl-x', `${x}deg`)
@@ -188,7 +182,7 @@ function SeletorCacambas({ cacambas }: { cacambas: Cacamba[] }) {
   }
 
   const inclinar = (e: PointerEvent<HTMLDivElement>) => {
-    if (e.pointerType !== 'mouse' || !refInclinacao.current || !podeInclinar()) return
+    if (e.pointerType !== 'mouse' || !refInclinacao.current || !podeSeguirPonteiro()) return
     const area = e.currentTarget.getBoundingClientRect()
     const px = (e.clientX - area.left) / area.width - 0.5
     const py = (e.clientY - area.top) / area.height - 0.5
@@ -265,6 +259,26 @@ function SeletorCacambas({ cacambas }: { cacambas: Cacamba[] }) {
   )
 }
 
+/** Link discreto para quem não sabe o tamanho: abre o WhatsApp pedindo ajuda para escolher. */
+function AjudaTamanho() {
+  const href = linkWhatsApp({ ajudaTamanho: true })
+  if (!href) return null
+
+  return (
+    <p className="mt-4 text-center sm:text-right">
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-flex min-h-11 items-center gap-2 rounded-sm text-sm font-semibold text-muted-foreground underline decoration-accent/70 decoration-2 underline-offset-4 transition-colors hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring focus-visible:outline-none"
+      >
+        <IconeWhatsApp className="size-4 shrink-0" />
+        Não sei qual tamanho escolher
+      </a>
+    </p>
+  )
+}
+
 export function Cacambas() {
   return (
     <section id="cacambas" aria-labelledby="titulo-cacambas" className="border-t border-border">
@@ -287,6 +301,7 @@ export function Cacambas() {
 
         <div className="mt-14">
           <SeletorCacambas cacambas={empresa.cacambas} />
+          <AjudaTamanho />
         </div>
 
       </div>

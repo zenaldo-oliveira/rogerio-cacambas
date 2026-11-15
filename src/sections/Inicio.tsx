@@ -1,12 +1,23 @@
 import { BotaoWhatsApp } from '../components/BotaoWhatsApp'
 import { Foto } from '../components/Foto'
 import { empresa } from '../config/empresa'
+import { useDeslocamentoPonteiro } from '../hooks/useDeslocamentoPonteiro'
+
+/** Deslocamento máximo da foto dos caminhões ao mover o mouse, por eixo. */
+const DESLOCAMENTO_MAX_PX = 8
 
 export function Inicio() {
   const { principal } = empresa.regiao
+  const { camada: camadaFoto, onPointerMove, onPointerLeave } = useDeslocamentoPonteiro<HTMLDivElement>(DESLOCAMENTO_MAX_PX)
 
   return (
-    <section id="inicio" aria-labelledby="titulo-inicio" className="fundo-inicio relative isolate overflow-hidden">
+    <section
+      id="inicio"
+      aria-labelledby="titulo-inicio"
+      className="fundo-inicio relative isolate overflow-hidden"
+      onPointerMove={onPointerMove}
+      onPointerLeave={onPointerLeave}
+    >
       {/* Rampa diagonal na base: faixa vermelha + filete amarelo, sob os caminhões.
           .entrada-faixa: desliza da direita até a posição final na primeira visita. */}
       <div
@@ -42,8 +53,11 @@ export function Inicio() {
             que só alcança o espaço vazio da foto — os caminhões (3–96% da largura, 21–79% da altura)
             ficam inteiros. Abaixo do botão no celular (sangrando até as bordas da tela);
             à direita do título no desktop. .entrada-foto: revelada da direita para a esquerda. */}
-        <div className="entrada-foto foto-integrada -mx-4 aspect-[2/1] sm:-mx-6 lg:mx-0 lg:w-[112%]">
-          <Foto foto={empresa.fotos.principal} chave="fotos.principal" proporcao="2:1" prioridade />
+        <div className="entrada-foto foto-integrada -mx-4 aspect-[2/1] overflow-hidden sm:-mx-6 lg:mx-0 lg:w-[112%]">
+          {/* Só esta camada se move com o mouse (.foto-paralaxe); título e botão ficam fixos. */}
+          <div ref={camadaFoto} className="foto-paralaxe h-full w-full">
+            <Foto foto={empresa.fotos.principal} chave="fotos.principal" proporcao="2:1" prioridade />
+          </div>
         </div>
       </div>
     </section>

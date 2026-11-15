@@ -25,18 +25,29 @@ export function mensagemOrcamento(capacidade?: string): string {
   return [SAUDACAO_ORCAMENTO, ...tamanho, ...CAMPOS_ORCAMENTO].join('\n')
 }
 
+const SAUDACAO_AJUDA_TAMANHO =
+  'Olá, Rogério! Vim pelo site da Rogério Caçambas e preciso de ajuda para escolher o tamanho da caçamba.'
+
+/** Mensagem do link "Não sei qual tamanho escolher": pede ajuda e traz os mesmos campos do orçamento. */
+export function mensagemAjudaTamanho(): string {
+  return [SAUDACAO_AJUDA_TAMANHO, ...CAMPOS_ORCAMENTO].join('\n')
+}
+
 interface OpcoesLinkWhatsApp {
   /** Caçamba escolhida (ex.: '4 m³'); entra na mensagem como "Tamanho da caçamba". */
   capacidade?: string
   /** Número com DDD (o 55 é opcional). Padrão: WhatsApp comercial de empresa.ts. */
   numero?: string
+  /** Pede ajuda para escolher o tamanho em vez de orçar um tamanho definido (ignora `capacidade`). */
+  ajudaTamanho?: boolean
 }
 
-/** Link do WhatsApp comercial com a mensagem de orçamento já preenchida, ou null se o número for inválido. */
-export function linkWhatsApp({ capacidade, numero = empresa.whatsapp }: OpcoesLinkWhatsApp = {}): string | null {
+/** Link do WhatsApp comercial com a mensagem já preenchida, ou null se o número for inválido. */
+export function linkWhatsApp({ capacidade, numero = empresa.whatsapp, ajudaTamanho = false }: OpcoesLinkWhatsApp = {}): string | null {
   const digitos = normalizar(numero)
   if (!WHATSAPP_VALIDO.test(digitos)) return null
-  return `https://wa.me/${digitos}?text=${encodeURIComponent(mensagemOrcamento(capacidade))}`
+  const mensagem = ajudaTamanho ? mensagemAjudaTamanho() : mensagemOrcamento(capacidade)
+  return `https://wa.me/${digitos}?text=${encodeURIComponent(mensagem)}`
 }
 
 const BRL = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' })
