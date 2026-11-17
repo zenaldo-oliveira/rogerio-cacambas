@@ -8,79 +8,79 @@
 
 export type Foto = {
   /** Caminho a partir de /public. Ex.: '/fotos/caminhoes.jpg'. Vazio = prévia. */
-  src: string
+  src: string;
   /** Descrição da foto (acessibilidade e SEO). */
-  alt: string
+  alt: string;
   /** Versão menor da mesma foto, usada em telas de até 640 px (celular). Opcional. */
-  srcCelular?: string
-}
+  srcCelular?: string;
+};
 
 export type FotoGaleria = Foto & {
   /** Nome exibido abaixo da imagem. Ex.: 'Areia'. */
-  material: string
+  material: string;
   /**
    * Versão leve usada na grade (WebP com transparência). O `src` (original) abre na ampliação.
    * Pode conter espaços/acentos no `src`: o site codifica o caminho ao montar a URL.
    */
-  miniatura?: string
+  miniatura?: string;
   /** Mostra a legenda "Imagem ilustrativa". */
-  ilustrativa?: boolean
-}
+  ilustrativa?: boolean;
+};
 
 export type Cacamba = {
   /** Capacidade como aparece no site. Ex.: '3 m³'. */
-  capacidade: string
+  capacidade: string;
   /** Descrição curta para o card (uma linha, até ~45 caracteres). */
-  descricao: string
+  descricao: string;
   /** Preço em reais. Ex.: 400 → "R$ 400,00". */
-  preco: number
+  preco: number;
   /**
    * Mude para true depois de conferir o preço com o Rogério.
    * Enquanto for false, o card mostra o valor com o selo "a confirmar".
    */
-  precoConfirmado: boolean
+  precoConfirmado: boolean;
   /** Materiais aceitos. Só aparece no card quando a lista não estiver vazia. */
-  materiais: string[]
+  materiais: string[];
   /**
    * Foto do modelo em public/fotos/ (WebP 1200×900, gerado do PNG original de mesmo tamanho na pasta).
    * Se o arquivo não carregar, o card mostra "Foto indisponível".
    * Vazio ('') = mostra a ilustração com a legenda "Imagem ilustrativa".
    */
-  foto: string
+  foto: string;
   /** Ilustração usada enquanto falta a foto real (gerada por `npm run ilustracoes`). */
-  ilustracao: string
-}
+  ilustracao: string;
+};
 
 export const empresa = {
-  nome: 'Rogério Caçambas',
+  nome: "Rogério Caçambas",
 
   /**
    * Logo do cabeçalho (fundo transparente). Vazio = nome em texto.
    * Versão otimizada (288×96, 19 KB) de "Logótipo industrial Rogério Caçambas.png".
    */
-  logo: '/fotos/logo-rogerio-cacambas.webp',
+  logo: "/fotos/logo-rogerio-cacambas.webp",
 
   /**
    * WhatsApp comercial: 55 + DDD + número, só dígitos. Confirmado pelo cliente
    * (é o mesmo "65 99212-4161" pintado nas caçambas). Vazio ou inválido = botões desativados.
    */
-  whatsapp: '5565992124161',
+  whatsapp: "5565992124161",
 
   /**
    * Usuário do Instagram sem @. Ex.: 'rogeriocacambas'.
    * Perfil confirmado pelo cliente.
    */
-  instagram: 'rogeriocacambas',
+  instagram: "rogeriocacambas_",
 
   /** Telefone fixo opcional, como deve aparecer no site. Ex.: '(11) 4000-0000'. */
-  telefoneFixo: '',
+  telefoneFixo: "",
 
   /** Horário de atendimento. Ex.: 'Seg. a sáb., das 7h às 18h'. */
-  horario: '',
+  horario: "Das 7h30 às 17h30",
 
   regiao: {
     /** Cidade(s) ou região principal. Ex.: 'Zona Leste de São Paulo'. */
-    principal: 'Cuiabá – MT',
+    principal: "Cuiabá – MT",
     /** Bairros ou cidades atendidos. Ex.: ['Tatuapé', 'Mooca', 'Penha']. */
     bairros: [] as string[],
   },
@@ -92,9 +92,9 @@ export const empresa = {
      * Link de rota do Google Maps até as coordenadas acima (botão "Como chegar").
      * Precisa ser https e do Google: é validado por linkMapa(). Vazio ou inválido = botão oculto.
      */
-    mapa: 'https://www.google.com/maps/dir/?api=1&destination=-15.585448%2C-56.0328494',
+    mapa: "https://www.google.com/maps/dir/?api=1&destination=-15.585448%2C-56.0328494",
     /** Endereço completo, só depois de confirmado. Ex.: 'Rua Exemplo, 123 – Bairro, Cidade'. Vazio = não aparece. */
-    endereco: '',
+    endereco: "",
   },
 
   /**
@@ -103,46 +103,46 @@ export const empresa = {
    */
   cacambas: [
     {
-      capacidade: '3 m³',
-      descricao: 'Reformas pequenas: banheiro, cozinha, quintal.',
+      capacidade: "3 m³",
+      descricao: "Reformas pequenas: banheiro, cozinha, quintal.",
       preco: 400,
       precoConfirmado: false,
       materiais: [],
-      foto: '/fotos/cacamba-3m3.webp',
-      ilustracao: '/ilustracoes/cacamba-3m3.svg',
+      foto: "/fotos/cacamba-3m3.webp",
+      ilustracao: "/ilustracoes/cacamba-3m3.svg",
     },
     {
-      capacidade: '4 m³',
-      descricao: 'Reforma de cômodos e pequenas demolições.',
+      capacidade: "4 m³",
+      descricao: "Reforma de cômodos e pequenas demolições.",
       preco: 430,
       precoConfirmado: false,
       materiais: [],
-      foto: '/fotos/cacamba-4m3.webp',
-      ilustracao: '/ilustracoes/cacamba-4m3.svg',
+      foto: "/fotos/cacamba-4m3.webp",
+      ilustracao: "/ilustracoes/cacamba-4m3.svg",
     },
     {
-      capacidade: '5 m³',
-      descricao: 'Reformas maiores e obras em andamento.',
+      capacidade: "5 m³",
+      descricao: "Reformas maiores e obras em andamento.",
       preco: 480,
       precoConfirmado: false,
       materiais: [],
-      foto: '/fotos/cacamba-5m3.webp',
-      ilustracao: '/ilustracoes/cacamba-5m3.svg',
+      foto: "/fotos/cacamba-5m3.webp",
+      ilustracao: "/ilustracoes/cacamba-5m3.svg",
     },
     {
-      capacidade: '6 m³',
-      descricao: 'Construções e grande volume de entulho.',
+      capacidade: "6 m³",
+      descricao: "Construções e grande volume de entulho.",
       preco: 550,
       precoConfirmado: false,
       materiais: [],
-      foto: '/fotos/cacamba-6m3.webp',
-      ilustracao: '/ilustracoes/cacamba-6m3.svg',
+      foto: "/fotos/cacamba-6m3.webp",
+      ilustracao: "/ilustracoes/cacamba-6m3.svg",
     },
   ] satisfies Cacamba[],
 
   /** Formas de pagamento, exibidas no card de Nossas Caçambas, abaixo do botão de orçamento. */
   pagamentos: {
-    texto: 'Aceitamos Pix e cartões',
+    texto: "Aceitamos Pix e cartões",
     /**
      * Bandeiras aceitas, como devem aparecer. Ex.: ['Visa', 'Mastercard', 'Elo'].
      * Vazio = mostra um ícone genérico de cartão até a lista ser confirmada.
@@ -158,9 +158,9 @@ export const empresa = {
      * e 900×450 (54 KB) no celular.
      */
     principal: {
-      src: '/fotos/fundo-galeria-caminhao.webp',
-      srcCelular: '/fotos/fundo-galeria-caminhao-900.webp',
-      alt: 'Caminhões vermelho e azul da Rogério Caçambas',
+      src: "/fotos/fundo-galeria-caminhao.webp",
+      srcCelular: "/fotos/fundo-galeria-caminhao-900.webp",
+      alt: "Caminhões vermelho e azul da Rogério Caçambas",
     } satisfies Foto,
     /**
      * Foto real da caçamba 42: destaque geral da seção Caçambas. O 42 é o número da
@@ -168,21 +168,21 @@ export const empresa = {
      * Versão otimizada (1200×900, 4:3) de "Contentor amarelo 42 em fundo cinzento.png".
      */
     destaqueCacambas: {
-      src: '/fotos/cacamba-42.webp',
-      alt: 'Caçamba amarela número 42 da Rogério Caçambas',
+      src: "/fotos/cacamba-42.webp",
+      alt: "Caçamba amarela número 42 da Rogério Caçambas",
     } satisfies Foto,
     /**
      * Fundo da seção Galeria (decorativo, sem texto alternativo).
      * Versões otimizadas de "background-caminhao.png": a de 900 px é usada no celular.
      */
     fundoGaleria: {
-      src: '/fotos/fundo-galeria-caminhao.webp',
-      srcCelular: '/fotos/fundo-galeria-caminhao-900.webp',
+      src: "/fotos/fundo-galeria-caminhao.webp",
+      srcCelular: "/fotos/fundo-galeria-caminhao-900.webp",
     },
     /** Destaque da frota no topo da Galeria (foto real, sem transparência). */
     destaqueFrota: {
-      src: '/fotos/cacamba-42.webp',
-      alt: 'Caçamba amarela número 42 da Rogério Caçambas',
+      src: "/fotos/cacamba-42.webp",
+      alt: "Caçamba amarela número 42 da Rogério Caçambas",
     } satisfies Foto,
     /**
      * Galeria de materiais (PNGs com fundo transparente, 4:3), nesta ordem.
@@ -191,35 +191,35 @@ export const empresa = {
      */
     galeria: [
       {
-        material: 'Entulho de obra',
-        src: '/fotos/Contentor amarelo com entulho de obra.png',
-        miniatura: '/fotos/galeria-entulho.webp',
-        alt: 'Caçamba amarela cheia de entulho de obra',
+        material: "Entulho de obra",
+        src: "/fotos/Contentor amarelo com entulho de obra.png",
+        miniatura: "/fotos/galeria-entulho.webp",
+        alt: "Caçamba amarela cheia de entulho de obra",
         ilustrativa: true,
       },
       {
-        material: 'Areia',
-        src: '/fotos/Caçamba amarela com areia.png',
-        miniatura: '/fotos/galeria-areia.webp',
-        alt: 'Caçamba amarela cheia de areia',
+        material: "Areia",
+        src: "/fotos/Caçamba amarela com areia.png",
+        miniatura: "/fotos/galeria-areia.webp",
+        alt: "Caçamba amarela cheia de areia",
         ilustrativa: true,
       },
       {
-        material: 'Brita',
-        src: '/fotos/Contentor amarelo cheio de brita (1).png',
-        miniatura: '/fotos/galeria-brita.webp',
-        alt: 'Caçamba amarela cheia de brita',
+        material: "Brita",
+        src: "/fotos/Contentor amarelo cheio de brita (1).png",
+        miniatura: "/fotos/galeria-brita.webp",
+        alt: "Caçamba amarela cheia de brita",
         ilustrativa: true,
       },
       {
-        material: 'Pedras',
-        src: '/fotos/Contentor amarelo cheio de pedras.png',
-        miniatura: '/fotos/galeria-pedras.webp',
-        alt: 'Caçamba amarela cheia de pedras',
+        material: "Pedras",
+        src: "/fotos/Contentor amarelo cheio de pedras.png",
+        miniatura: "/fotos/galeria-pedras.webp",
+        alt: "Caçamba amarela cheia de pedras",
         ilustrativa: true,
       },
     ] satisfies FotoGaleria[],
   },
-}
+};
 
 /* A mensagem de orçamento do WhatsApp é montada em src/config/contato.ts (mensagemOrcamento). */
