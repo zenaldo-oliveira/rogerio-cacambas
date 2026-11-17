@@ -70,7 +70,7 @@ export const empresa = {
    * Usuário do Instagram sem @. Ex.: 'rogeriocacambas'.
    * Perfil confirmado pelo cliente.
    */
-  instagram: "rogeriocacambas_",
+  instagram: "rogeriocacamba_",
 
   /** Telefone fixo opcional, como deve aparecer no site. Ex.: '(11) 4000-0000'. */
   telefoneFixo: "",
